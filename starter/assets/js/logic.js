@@ -10,18 +10,25 @@ var questionsEl = document.querySelector("#question-title");
 
 var secondsLeft = 75;
 
+
+
+
 // When Start Quiz button is clicked, questions load and timer is on.
 startQuiz.addEventListener("click", function () {
     for (var i = 0; i < myQuestions.length; i++) {
-        // console.log(myQuestions[i].question);
+        console.log(myQuestions[i].question);
         startedScreen.textContent = "";
 
         //change class "hide" to "visible"
         document.getElementById("questions").className = "visible";
         // questionsEl.textContent = myQuestions; 
+        if (question1 === answer1) {
 
+            scores();
+        } else {
+            myQuestions.textContent = myQuestions[i].question;
 
-
+        }
 
 
 
