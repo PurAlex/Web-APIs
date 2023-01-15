@@ -2,7 +2,7 @@ console.log("questions");
 // Questions, answers and correct answers 
 var myQuestions = [
     {
-        question: "Array in JavaScript can be used to store",
+        question: "Array in JavaScript can be used to store?",
         answers: [
             "1. booleans",
             "2. All of the above",
@@ -12,7 +12,7 @@ var myQuestions = [
         correctAnswer: 1
     },
     {
-        question: "Commonly used data types Do Not include",
+        question: "Commonly used data types Do Not include?",
         answers: [
             "strings",
             "booleans",
