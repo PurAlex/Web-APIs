@@ -1,88 +1,54 @@
-console.log("logic");
-
+// DOM elements
 var startQuiz = document.querySelector("#start");
 var timer = document.querySelector("#time");
-var startedScreen = document.querySelector("#start-screen");
-
-
-var choices = document.querySelector(".choices");
-
-// ordered list created
-var choicesList = document.createElement("ol");
-choices.appendChild(choicesList);
-
-// button created 
-var choices1Button = document.createElement("button");
-var choices2Button = document.createElement("button");
-var choices3Button = document.createElement("button");
-var choices4Button = document.createElement("button");
-
-// choices button append to list items
-choicesList.appendChild(choices1Button);
-choicesList.appendChild(choices2Button);
-choicesList.appendChild(choices3Button);
-choicesList.appendChild(choices4Button);
-
-var userChoice;
+var questionsEl = document.querySelector("#questions")
+var choicesEl = document.getElementById("choices");
 
 var secondsLeft = 75;
-
+var currentQuestionIndex = 0;
 
 // When Start Quiz button is clicked, questions load and timer is on.
 startQuiz.addEventListener("click", function () {
-
-    startedScreen.textContent = "";
+    // hide start-screen 
+    var startScreen = document.getElementById("start-screen");
+    startScreen.setAttribute("class", "hide");
     //change class "hide" to "visible"
     document.getElementById("questions").className = "visible";
 
-    // Run showQuestions function
-    showQuestions();
     // Run startTime function
     startTime();
+    // Run showQuestions function
+    showQuestions();
+
 
 });
 
+
 function showQuestions() {
-    for (var i = 0; i < myQuestions.length; i++) {
-        var questionTitle = document.getElementById("question-title");
-        questionTitle.textContent = myQuestions[0].question;
+    var currentQuestion = myQuestions[currentQuestionIndex];
+    var questionTitle = document.getElementById("question-title");
+    questionTitle.textContent = currentQuestion.question;
 
-        // Displaying answers as buttons to be clicked
-        choices1Button.textContent = myQuestions[0].answers[0];
-        choices2Button.textContent = myQuestions[0].answers[1];
-        choices3Button.textContent = myQuestions[0].answers[2];
-        choices4Button.textContent = myQuestions[0].answers[3];
+    // choices.innerHTML = "";
+
+    currentQuestion.choices.forEach(function (choice, i) {
+        var choiceButton = document.createElement("button");
+        choiceButton.setAttribute("class", "choice");
+        choiceButton.setAttribute("value", choice);
+
+        choiceButton.textContent = i + 1 + ". " + choice;
+        // choiceButton.onclick = questionClick;
+
+        choicesEl.appendChild(choiceButton);
+
+
+    })
+}
 
 
 
-        // if (userChoice == myQuestions[0].correctAnswer) {
-        //     console.log("good");
-        // } else if (choices1Button === myQuestions[0].answers[0]) {
-        //     console.log("nose");
-        // }
-    }
-};
 
-// button on click 
-choices1Button.addEventListener("click", function () {
-    if (userChoice === myQuestions[0].correctAnswer[0]) {
-        console.log("incorret");
-    }
-})
 
-choices2Button.addEventListener("click", function () {
-    if (userChoice === myQuestions[0].correctAnswer[0]) {
-        console.log("correct");
-    }
-})
-
-choices3Button.addEventListener("click", function () {
-    console.log("hello");
-})
-
-choices4Button.addEventListener("click", function () {
-    console.log("hello");
-})
 
 
 
