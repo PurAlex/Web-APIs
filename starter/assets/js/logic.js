@@ -23,30 +23,46 @@ startQuiz.addEventListener("click", function () {
 
 });
 
-
+// Function to show the questions and choices
 function showQuestions() {
+    // Add to a new var the current question
     var currentQuestion = myQuestions[currentQuestionIndex];
+
+    // Display the current question
     var questionTitle = document.getElementById("question-title");
     questionTitle.textContent = currentQuestion.question;
 
     // choices.innerHTML = "";
 
+    // Loop over all the choices
     currentQuestion.choices.forEach(function (choice, i) {
+        // Button created for each choice
         var choiceButton = document.createElement("button");
         choiceButton.setAttribute("class", "choice");
         choiceButton.setAttribute("value", choice);
 
         choiceButton.textContent = i + 1 + ". " + choice;
-        // choiceButton.onclick = questionClick;
+        // Add questionClick function to each choiceButton
+        choiceButton.onclick = questionClick;
 
         choicesEl.appendChild(choiceButton);
 
 
-    })
+    });
 }
 
 
+function questionClick() {
+    // If user choice is wrong
+    if (this.value !== myQuestions[currentQuestionIndex].answer) {
+        // Reduce time when user choice is wrong
+        secondsLeft -= 10;
 
+        if (secondsLeft < 0) {
+            secondsLeft = 0;
+        }
+    }
+}
 
 
 
