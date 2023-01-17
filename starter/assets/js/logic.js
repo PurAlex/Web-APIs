@@ -4,6 +4,7 @@ var timer = document.querySelector("#time");
 var questionsEl = document.querySelector("#questions")
 var choicesEl = document.getElementById("choices");
 var feedbackEl = document.querySelector("#feedback");
+var initialsEl = document.querySelector("#initials");
 
 var secondsLeft = 75;
 var timerInterval;
@@ -46,36 +47,45 @@ function showQuestions() {
         choiceButton.textContent = i + 1 + ". " + choice;
         // Add questionClick function to each choiceButton
         choiceButton.onclick = questionClick;
-
+        // Append button to choices
         choicesEl.appendChild(choiceButton);
 
 
     });
 }
 
-
+// Function when choice is clicked
 function questionClick() {
     // If user choice is wrong
     if (this.value !== myQuestions[currentQuestionIndex].answer) {
         // Reduce time when user choice is wrong
         secondsLeft -= 10;
-
-        // if (secondsLeft < 0) {
-        //     secondsLeft = 0;
-        // }
-
-        // feedbackEl.textContent = "Wrong!";
+        // Display if wrong
+        feedbackEl.textContent = "Wrong!";
+    } else {
+        // Display if correct
+        feedbackEl.textContent = "Correct!";
     }
 
+    // Set wrong and correct for 1 second to show, then hide until next choice.
+    feedbackEl.setAttribute("class", "feedback");
+    setTimeout(function () {
+        feedbackEl.setAttribute("class", "feedback hide");
+    }, 1000);
+
+    // Take user to the next question
     currentQuestionIndex++;
+    // If no more questions, then show score 
     if (currentQuestionIndex === myQuestions.length) {
+        timer.textContent = secondsLeft;
         scores();
+        // If there are more questions left then show nex question
     } else {
         showQuestions();
     }
 }
 
-
+// Function to show the final score
 function scores() {
     // Stops timer
     clearInterval(timerInterval);
@@ -90,7 +100,6 @@ function scores() {
 
 }
 
-
 // Start time and end the questions when secondsLeft = 0. When secondsLeft = 0 display scores.
 function startTime() {
     timerInterval = setInterval(function () {
@@ -98,10 +107,44 @@ function startTime() {
         timer.textContent = secondsLeft;
 
         if (secondsLeft === 0) {
-            // Stops execution of action at set interval
-            clearInterval(timerInterval);
             // Calls function of scores
+            clearInterval(timerInterval);
             scores();
         }
     }, 1000);
-};
+}
+
+// Function to save the scores of the users on the localStorage
+function saveScores() {
+    var initials = initialsEl.value.trim();
+
+    if (initials !== "") {
+        var scoreSaved = JSON.parse(window.localStorage.getItem("highscores")) || [];
+        // Add new score for a user
+        var addScore = {
+            score: secondsLeft,
+            initials: initials
+        };
+
+        // Save new score to localStorage
+        scoreSaved.push(addScore);
+        window.localStorage.setItem("highscores", JSON.stringify(scoreSaved));
+
+        // Direct the page to highscores
+        window.location.href = "./starter/highscores.html";
+    }
+
+}
+
+// Function to check when the user type something
+function checkUserInput(event) {
+    // If user type then call saveScores funtion
+    if (event.key === "Enter") {
+        saveScores();
+    }
+}
+
+// When submit is click call saveScores function
+var startButton = document.querySelector("#submit");
+startButton.onclick = saveScores;
+
