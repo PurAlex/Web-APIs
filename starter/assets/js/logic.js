@@ -3,6 +3,7 @@ var startQuiz = document.querySelector("#start");
 var timer = document.querySelector("#time");
 var questionsEl = document.querySelector("#questions")
 var choicesEl = document.getElementById("choices");
+var feedbackEl = document.querySelector("#feedback");
 
 var secondsLeft = 75;
 var currentQuestionIndex = 0;
@@ -32,7 +33,7 @@ function showQuestions() {
     var questionTitle = document.getElementById("question-title");
     questionTitle.textContent = currentQuestion.question;
 
-    // choices.innerHTML = "";
+    choicesEl.innerHTML = "";
 
     // Loop over all the choices
     currentQuestion.choices.forEach(function (choice, i) {
@@ -58,14 +59,25 @@ function questionClick() {
         // Reduce time when user choice is wrong
         secondsLeft -= 10;
 
-        if (secondsLeft < 0) {
-            secondsLeft = 0;
-        }
+        // if (secondsLeft < 0) {
+        //     secondsLeft = 0;
+        // }
+
+        // feedbackEl.textContent = "Wrong!";
+    }
+
+    currentQuestionIndex++;
+    if (currentQuestionIndex === myQuestions.length) {
+        endQuiz();
+    } else {
+        showQuestions();
     }
 }
 
 
+function endQuiz() {
 
+}
 
 
 // Start time and end the questions when secondsLeft = 0. When secondsLeft = 0 display scores.
