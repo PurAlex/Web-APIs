@@ -6,6 +6,7 @@ var choicesEl = document.getElementById("choices");
 var feedbackEl = document.querySelector("#feedback");
 
 var secondsLeft = 75;
+var timerInterval;
 var currentQuestionIndex = 0;
 
 // When Start Quiz button is clicked, questions load and timer is on.
@@ -68,21 +69,31 @@ function questionClick() {
 
     currentQuestionIndex++;
     if (currentQuestionIndex === myQuestions.length) {
-        endQuiz();
+        scores();
     } else {
         showQuestions();
     }
 }
 
 
-function endQuiz() {
+function scores() {
+    // Stops timer
+    clearInterval(timerInterval);
+    // Hide questions
+    document.getElementById("questions").className = "hide";
+    // Display end screen
+    var endScreen = document.getElementById("end-screen").className = "visible";
+    // Show the final score
+    var finalScore = document.getElementById("final-score");
+    finalScore.textContent = secondsLeft;
+
 
 }
 
 
 // Start time and end the questions when secondsLeft = 0. When secondsLeft = 0 display scores.
 function startTime() {
-    var timerInterval = setInterval(function () {
+    timerInterval = setInterval(function () {
         secondsLeft--;
         timer.textContent = secondsLeft;
 
